@@ -1,0 +1,359 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>고양이 귀여워</title>
+    <style>
+        /* 폰트 적용: 배민 꾸불림체 */
+        @font-face {
+            font-family: 'KkuBulLim';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2410-1@1.0/BMkkubulimTTF-Regular.woff2') format('woff2');
+            font-weight: normal;
+            font-display: swap;
+        }
+
+
+        :root {
+            --bg-color: #fdfcf0; 
+            --point-blue: #d4eaf7; 
+            --point-pink: #f9d9db; 
+            --text-color: #5d5d5d;
+            --placeholder-bg: #ffffff;
+        }
+
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+
+        body {
+            font-family: 'KkuBulLim', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+            font-size: 1.1rem;
+        }
+
+
+        /* 배경 구름 장식 */
+        .cloud-wrapper {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; pointer-events: none;
+        }
+        .cloud {
+            position: absolute; background: #fff; width: 150px; height: 50px;
+            border-radius: 100px; opacity: 0.6; filter: blur(3px);
+        }
+        .cloud::after, .cloud::before {
+            content: ''; position: absolute; background: #fff; border-radius: 50%;
+        }
+        .cloud::after { width: 80px; height: 80px; top: -40px; left: 20px; }
+        .cloud::before { width: 60px; height: 60px; top: -25px; left: 70px; }
+
+
+        /* 애니메이션 */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+
+        /* 1. 최상단 제목 섹션 */
+        header {
+            padding: 80px 20px 40px;
+            text-align: center;
+            background: linear-gradient(180deg, var(--point-blue) 0%, rgba(253, 252, 240, 0) 100%);
+        }
+        header h1 {
+            font-size: 4rem;
+            color: #7a9eb1;
+            text-shadow: 2px 2px 4px rgba(255,255,255,0.8);
+            letter-spacing: -1px;
+        }
+
+
+        /* 2. 히어로 이미지 섹션 */
+        .hero {
+            padding: 0 20px 100px;
+            display: flex;
+            justify-content: center;
+        }
+        .hero-placeholder {
+            width: 100%;
+            max-width: 1000px;
+            aspect-ratio: 16 / 8;
+            background-color: var(--placeholder-bg);
+            border: 5px dashed #d0e0e9;
+            border-radius: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #b0c4de;
+            font-size: 1.4rem;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.03);
+            /* 이미지 넘침 방지 적용 */
+            overflow: hidden; 
+        }
+
+
+        /* 3. 장점 섹션 (6가지) */
+        .benefits {
+            max-width: 1100px;
+            margin: 0 auto 100px;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .benefit-card {
+            background: #fff;
+            padding: 40px;
+            border-radius: 35px;
+            text-align: center;
+            border: 2px solid #fef3f3;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.02);
+        }
+        .benefit-card h3 {
+            margin-bottom: 15px;
+            color: #e09ba0;
+            font-size: 1.8rem;
+        }
+
+
+        /* 4. 고양이 소개 섹션 */
+        .cat-section {
+            padding: 120px 20px;
+            background-color: #fffaf4;
+        }
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 70px;
+            color: #8da47e;
+        }
+        .cat-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 50px;
+        }
+        .cat-card {
+            background: #fff;
+            border-radius: 40px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.06);
+            transition: transform 0.3s ease;
+        }
+        .cat-card:hover { transform: translateY(-15px); }
+        
+        .cat-img-box {
+            width: 100%;
+            height: 320px;
+            background-color: #f9f9f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #ccc;
+            font-size: 1.2rem;
+            border-bottom: 1px solid #eee;
+            /* 이미지 넘침 방지 적용 */
+            overflow: hidden; 
+        }
+
+
+        /* 이미지 공통 스타일 (이미지가 꽉 차도록) */
+        .cat-img-box img, .hero-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+
+        .cat-info { padding: 35px; }
+        .cat-info h3 { font-size: 2rem; margin-bottom: 15px; color: #444; }
+        .cat-info p { color: #666; font-size: 1.1rem; word-break: keep-all; }
+
+
+        footer {
+            text-align: center;
+            padding: 100px 20px;
+            background-color: #fffaf4;
+            color: #bbb;
+            font-size: 1rem;
+        }
+
+
+        @media (max-width: 768px) {
+            header h1 { font-size: 3rem; }
+            .hero-placeholder { aspect-ratio: 4 / 3; font-size: 1.1rem; }
+            .section-title { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+
+    <!-- 구름 배경 -->
+    <div class="cloud-wrapper">
+        <div class="cloud" style="top: 5%; left: 10%;"></div>
+        <div class="cloud" style="top: 15%; right: 15%; transform: scale(1.3);"></div>
+        <div class="cloud" style="top: 45%; left: -2%; opacity: 0.3;"></div>
+        <div class="cloud" style="top: 75%; right: 5%; transform: scale(1.1); opacity: 0.4;"></div>
+    </div>
+
+
+    <!-- 최상단 제목 -->
+    <header>
+        <h1 class="reveal">고양이 귀여워</h1>
+    </header>
+
+
+    <!-- 히어로 이미지 영역 -->
+    <section class="hero">
+        <div class="hero-placeholder reveal">
+            <!-- 고양이들.png를 넣었을 때 테두리에 맞춰 잘리게 됩니다 -->
+            <img src="고양이들.png" alt="귀여운 고양이들">
+        </div>
+    </section>
+
+
+    <!-- 장점 섹션 (6가지) -->
+    <section class="benefits">
+        <div class="benefit-card reveal">
+            <h3>✨ 눈부신 눈망울</h3>
+            <p>보석처럼 반짝이는 커다란 눈을 보고 있으면 복잡했던 마음이 평온해지고 행복해져요.</p>
+        </div>
+        <div class="benefit-card reveal">
+            <h3>🎵 힐링 골골송</h3>
+            <p>기분 좋을 때 들려주는 가르릉 소리는 그 어떤 음악보다 따뜻한 위로를 선물해준답니다.</p>
+        </div>
+        <div class="benefit-card reveal">
+            <h3>💖 말랑말랑 젤리</h3>
+            <p>분홍색과 검은색의 말랑한 발바닥 젤리는 존재만으로도 세상을 구할 수 있을 만큼 귀여워요.</p>
+        </div>
+        <div class="benefit-card reveal">
+            <h3>☁️ 솜사탕 같은 털</h3>
+            <p>부드러운 구름을 쓰다듬는 듯한 기분! 폭신한 털 속에 손을 넣으면 스트레스가 녹아내려요.</p>
+        </div>
+        <div class="benefit-card reveal">
+            <h3>🏠 존재 자체가 힐링</h3>
+            <p>가만히 식빵을 굽고 있거나 낮잠을 자는 모습만 봐도 집안 분위기가 화사하고 따뜻해져요.</p>
+        </div>
+        <div class="benefit-card reveal">
+            <h3>🌿 다정한 단짝 친구</h3>
+            <p>말하지 않아도 곁에 다가와 체온을 나눠주는 고양이는 평생 함께하고 싶은 소중한 친구예요.</p>
+        </div>
+    </section>
+
+
+    <!-- 고양이 친구들 섹션 -->
+    <section class="cat-section">
+        <h2 class="section-title reveal">우리 고양이 친구들</h2>
+        <div class="cat-grid">
+            
+            <!-- 1. 고등어 -->
+            <div class="cat-card reveal">
+                <div class="cat-img-box">
+                    <img src="고등어.png" alt="고등어">
+                </div>
+                <div class="cat-info">
+                    <h3>고등어</h3>
+                    <p>이름: 줄무늬 대장<br>특징: 튼튼한 무늬만큼이나 성격도 씩씩해요! 사냥 놀이를 할 때 가장 눈이 반짝이는 열정적인 탐험가랍니다.</p>
+                </div>
+            </div>
+
+
+            <!-- 2. 삼색이 -->
+            <div class="cat-card reveal">
+                <div class="cat-img-box">
+                    <img src="삼색이.png" alt="삼색이">
+                </div>
+                <div class="cat-info">
+                    <h3>삼색이</h3>
+                    <p>이름: 비빔이<br>특징: 알록달록 세 가지 색이 매력적이에요. 애교가 많아서 눈만 마주쳐도 배를 보여주며 반겨주는 귀염둥이죠.</p>
+                </div>
+            </div>
+
+
+            <!-- 3. 러시안블루 -->
+            <div class="cat-card reveal">
+                <div class="cat-img-box">
+                    <img src="러시안블루.png" alt="러시안블루">
+                </div>
+                <div class="cat-info">
+                    <h3>러시안블루</h3>
+                    <p>이름: 실버<br>특징: 은빛 털과 초록색 눈이 신비로워요. 조용하고 차분한 성격으로 집사의 곁을 묵묵히 지켜주는 든든한 친구예요.</p>
+                </div>
+            </div>
+
+
+            <!-- 4. 노르웨이숲 -->
+            <div class="cat-card reveal">
+                <div class="cat-img-box">
+                    <img src="노르웨이숲.png" alt="노르웨이숲">
+                </div>
+                <div class="cat-info">
+                    <h3>노르웨이숲</h3>
+                    <p>이름: 숲이 요정<br>특징: 풍성한 목도리 털이 멋진 젠틀 자이언트! 영리하고 나무 타기를 좋아하는 늠름한 매력을 가졌어요.</p>
+                </div>
+            </div>
+
+
+            <!-- 5. 샴 -->
+            <div class="cat-card reveal">
+                <div class="cat-img-box">
+                    <img src="샴.png" alt="샴">
+                </div>
+                <div class="cat-info">
+                    <h3>샴</h3>
+                    <p>이름: 초코코<br>특징: 얼굴과 발끝의 초코색 포인트가 예쁘죠? 집사에게 말을 거는 걸 좋아하는 수다쟁이 애교쟁이랍니다.</p>
+                </div>
+            </div>
+
+
+            <!-- 6. 페르시안 고양이 -->
+            <div class="cat-card reveal">
+                <div class="cat-img-box">
+                    <img src="페르시안.png" alt="페르시안">
+                </div>
+                <div class="cat-info">
+                    <h3>페르시안</h3>
+                    <p>이름: 구름이<br>특징: 눈처럼 하얗고 긴 털을 가진 고양이계의 귀족이에요. 느긋하게 소파에서 낮잠 자는 시간을 가장 사랑한답니다.</p>
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+
+
+    <footer>
+        <p>&copy; 2026 고양이 귀여워. 모든 고양이가 행복한 세상 🐾</p>
+    </footer>
+
+
+    <script>
+        // 스크롤 시 부드럽게 나타나는 효과
+        const observerOptions = { threshold: 0.1 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
+```
